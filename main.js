@@ -233,9 +233,6 @@ class Speed extends Vector {
 }
 
 class Pendulum extends PhysicalDot {
-    static minimal_vector = null;
-
-
     /**
      *
      * @param {number} x
@@ -329,13 +326,6 @@ class Pendulum extends PhysicalDot {
             let centripetal_force = toCenterVector.normalize().multiply(0.00000000000000667430 * center.mass/toCenterVector.length);
 
             this.speed = this.speed.add(centripetal_force.multiply(1/fps));
-
-
-            if (Pendulum.minimal_vector === null) Pendulum.minimal_vector = toCenterVector.length;
-            else {
-                if (Pendulum.minimal_vector > toCenterVector.length) Pendulum.minimal_vector = toCenterVector.length;
-            }
-
         }
 
     }
