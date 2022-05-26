@@ -2,6 +2,12 @@ class PendulumsSimulator {
     /**
      * @param {{pendulums: Pendulum|Array.<Pendulum>|undefined}} params
      */
+    lastFrameEndTime = null;
+    get deltaTime() {
+        return this.lastFrameEndTime !== null ? new Date() - this.lastFrameEndTime : 0
+    }
+
+
     constructor(params) {
         let pendulums = params.pendulums;
         if (pendulums) {
@@ -48,7 +54,7 @@ class PendulumsSimulator {
         }
 
         for (let pendulum of this.pendulums) {
-            pendulum.move();
+            pendulum.move(fps);
         }
 
         for (let pendulum of this.pendulums) {
@@ -59,6 +65,8 @@ class PendulumsSimulator {
         for (let pendulum of this.pendulums) {
             vel_sum += pendulum.speed.length
         }
+
+        this.lastFrameEndTime = new Date()
     }
 
     chainCenters(pendulums) {
@@ -226,6 +234,8 @@ class Speed extends Vector {
 
 class Pendulum extends PhysicalDot {
     static minimal_vector = null;
+
+
     /**
      *
      * @param {number} x
@@ -270,9 +280,9 @@ class Pendulum extends PhysicalDot {
         }
     }
 
-    move() {
-        this.x += this.speed.x;
-        this.y += this.speed.y;
+    move(fps) {
+        this.x += this.speed.x * 1/fps;
+        this.y += this.speed.y * 1/fps;
     }
 
     wallCollision(width, height) {
@@ -354,10 +364,10 @@ function getSizeFromMass(mass) {
 
 let mass = 1000000000000000;
 
-simulation.pendulums.push(new Pendulum(120,100, getSizeFromMass(mass), mass, {centers: simulation.pendulums, color: simulation.getRandomColor()}))
-simulation.pendulums.push(new Pendulum(10,40, getSizeFromMass(mass), mass, {centers: simulation.pendulums, color: simulation.getRandomColor()}))
+//simulation.pendulums.push(new Pendulum(120,100, getSizeFromMass(mass), mass, {centers: simulation.pendulums, color: simulation.getRandomColor(), speed: new Speed(-15, 15)}))
+//simulation.pendulums.push(new Pendulum(10,40, getSizeFromMass(mass), mass, {centers: simulation.pendulums, color: simulation.getRandomColor()}))
 
-simulation.start(10, canvas, ctx, true);
+simulation.start(1, canvas, ctx, true);
 
 function clearCanvas(canvas, ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
