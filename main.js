@@ -33,7 +33,6 @@ class PendulumsSimulator {
              */
             (e)=> {
                 lastDown = {x: e.offsetX, y: e.offsetY}
-                console.log(lastDown);
             });
 
         canvas.addEventListener("mouseup",
@@ -41,8 +40,6 @@ class PendulumsSimulator {
              * @param e {DragEvent}
              */
             (e)=> {
-                console.log(massInput.value)
-
                 const dif = {x: e.offsetX - lastDown.x, y: e.offsetY - lastDown.y}
 
                 this.pendulums.push(new Pendulum(lastDown.x, lastDown.y, Number(sizeInput.value), Number(massInput.value) * 10 ** 14, {
@@ -50,10 +47,6 @@ class PendulumsSimulator {
                     centers: this.pendulums,
                     speed: new Speed(dif.x, dif.y),
                 }));
-
-                console.log(this.pendulums[this.pendulums.length - 1])
-
-                console.log(e);
             });
     }
 
