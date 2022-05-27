@@ -23,22 +23,40 @@ class PendulumsSimulator {
 
     }
 
-    /**
-     *
-     * @param {HTMLCanvasElement} canvas
-     */
-    bindSpawnOnClickFor(canvas) {
-        let massInput = document.getElementById("mass")
-        let sizeInput = document.getElementById("size")
-        console.log(document.getElementById("mass").value)
-        canvas.addEventListener("mousedown", (e)=>{
-            console.log(e);
-            console.log(massInput.value, sizeInput.value);
-            this.pendulums.push(new Pendulum(e.offsetX, e.offsetY, sizeInput.value, massInput.value * 10**14, {color: this.getRandomColor(), centers: pendulums}));
+    bindSpawnOnDragClickFor(canvas) {
+        let massInput = document.getElementById("mass");
+        let sizeInput = document.getElementById("size");
 
+        let lastDown = null;
+        canvas.addEventListener("mousedown",
+            /**
+             * @param e {DragEvent}
+             */
+            (e)=> {
+                lastDown = {x: e.offsetX, y: e.offsetY}
+                console.log(lastDown);
+            });
 
-        });
-        canvas.oncontextmenu = () => false;
+        canvas.addEventListener("mouseup",
+            /**
+             * @param e {DragEvent}
+             */
+            (e)=> {
+                console.log(massInput.value)
+
+                const dif = {x: e.offsetX - lastDown.x, y: e.offsetY - lastDown.y}
+
+                this.pendulums.push(new Pendulum(lastDown.x, lastDown.y, Number(sizeInput.value), Number(massInput.value) * 10 ** 14, {
+                    color: this.getRandomColor(),
+                    centers: this.pendulums,
+                    speed: new Speed(dif.x, dif.y),
+                    collisionEnabled: true
+                }));
+
+                console.log(this.pendulums[this.pendulums.length - 1])
+
+                console.log(e);
+            });
     }
 
     draw(ctx) {
@@ -346,16 +364,13 @@ let simulation = new PendulumsSimulator(
     }
 )
 simulation.eachOtherCentering();
-simulation.bindSpawnOnClickFor(canvas);
+simulation.bindSpawnOnDragClickFor(canvas);
 
 function getSizeFromMass(mass) {
     return mass / 100000000000000;
 }
 
 let mass = 1000000000000000;
-
-//simulation.pendulums.push(new Pendulum(120,100, getSizeFromMass(mass), mass, {centers: simulation.pendulums, color: simulation.getRandomColor(), speed: new Speed(-15, 15)}))
-//simulation.pendulums.push(new Pendulum(10,40, getSizeFromMass(mass), mass, {centers: simulation.pendulums, color: simulation.getRandomColor()}))
 
 simulation.start(1, canvas, ctx, true);
 
