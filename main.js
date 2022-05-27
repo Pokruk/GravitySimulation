@@ -1,24 +1,23 @@
 class PendulumsSimulator {
-    /**
-     * @param {{pendulums: Pendulum|Array.<Pendulum>|undefined}} params
-     */
+
     lastFrameEndTime = null;
+
+    /**
+     *
+     * @type {Array<Pendulum>}
+     */
+    pendulums = null;
+    interval;
+
     get deltaTime() {
         return this.lastFrameEndTime !== null ? new Date() - this.lastFrameEndTime : 0
     }
 
-
+    /**
+     * @param {{pendulums: Pendulum|Array.<Pendulum>|undefined}} params
+     */
     constructor(params) {
-        let pendulums = params.pendulums;
-        if (pendulums) {
-            if (pendulums instanceof Pendulum) {
-                this.pendulums = [pendulums];
-            } else if (pendulums instanceof Array) {
-                this.pendulums = pendulums;
-            }
-        } else {
-            this.pendulums = [];
-        }
+        this.pendulums = params.pendulums;
 
 
     }
@@ -50,7 +49,6 @@ class PendulumsSimulator {
                     color: this.getRandomColor(),
                     centers: this.pendulums,
                     speed: new Speed(dif.x, dif.y),
-                    collisionEnabled: true
                 }));
 
                 console.log(this.pendulums[this.pendulums.length - 1])
@@ -145,6 +143,10 @@ class PendulumsSimulator {
 }
 
 class Dot {
+    _x;
+    _y;
+    color;
+
     constructor(x,y, color="#000000") {
         this._x = x;
         this._y = y;
@@ -188,6 +190,15 @@ class Dot {
 }
 
 class PhysicalDot extends Dot {
+    /**
+     * @type {number}
+     */
+    mass;
+    /**
+     * @type {number}
+     */
+    size;
+
     constructor(x, y, color, size, mass) {
         super(x, y, color);
         this.mass = mass;
@@ -199,6 +210,8 @@ class PhysicalDot extends Dot {
 }
 
 class Vector {
+    from; to;
+
     /**
      *
      * @param from {Dot}
@@ -252,12 +265,25 @@ class Speed extends Vector {
 
 class Pendulum extends PhysicalDot {
     /**
+     * @type {Speed}
+     */
+    speed = null;
+    /**
+     * @type {Array<PhysicalDot>}
+     */
+    centers = []
+    /**
+     * @type {boolean}
+     */
+    hide;
+
+    /**
      *
      * @param {number} x
      * @param {number} y
      * @param {number} size
      * @param {number} mass
-     * @param {{color: string|undefined, centers: PhysicalDot|Array.<PhysicalDot>|undefined, speed: Speed|undefined, hide: boolean|undefined}} params
+     * @param {{color: string|undefined, centers: Array<PhysicalDot>|undefined, speed: Speed|undefined, hide: boolean|undefined}} params
      */
 
     constructor(x, y, size, mass, params) {
@@ -272,8 +298,6 @@ class Pendulum extends PhysicalDot {
             } else if (centers instanceof Array) {
                 this.centers = centers;
             }
-        } else {
-            this.centers = [];
         }
 
         let speed = params.speed;
@@ -324,8 +348,8 @@ class Pendulum extends PhysicalDot {
                 if (this.speed.y < 0) {
                     this.speed = new Speed(this.speed.x, -this.speed.y)
                 }
-            } else if (this.y > width) {
-                this.y = width
+            } else if (this.y > height) {
+                this.y = height
                 if (this.speed.y > 0) {
                     this.speed = new Speed(this.speed.x, -this.speed.y)
                 }
@@ -341,11 +365,10 @@ class Pendulum extends PhysicalDot {
 
             let toCenterVector = new Vector(this, center)
             if (toCenterVector.length < center.size) continue;
-            let centripetal_force = toCenterVector.normalize().multiply(0.00000000000000667430 * center.mass/toCenterVector.length);
+            let centripetal_force = toCenterVector.normalize().multiply(0.00000000000000667430 * center.mass /toCenterVector.length);
 
             this.speed = this.speed.add(centripetal_force.multiply(1/fps));
         }
-
     }
 }
 
