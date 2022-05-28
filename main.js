@@ -3,7 +3,6 @@ class PendulumsSimulator {
     lastFrameEndTime = null;
 
     /**
-     *
      * @type {Array<Pendulum>}
      */
     pendulums = null;
@@ -14,12 +13,10 @@ class PendulumsSimulator {
     }
 
     /**
-     * @param {{pendulums: Pendulum|Array.<Pendulum>|undefined}} params
+     * @param {{pendulums: Array.<Pendulum>|undefined}} params
      */
     constructor(params) {
         this.pendulums = params.pendulums;
-
-
     }
 
     bindSpawnOnDragClickFor(canvas) {
@@ -78,6 +75,9 @@ class PendulumsSimulator {
         this.lastFrameEndTime = new Date()
     }
 
+    /**
+     * @param {Pendulum[]} pendulums
+     */
     chainCenters(pendulums) {
         pendulums = pendulums || this.pendulums;
         for (let i = 0; i < pendulums.length - 1; i++) {
@@ -206,15 +206,13 @@ class Vector {
     from; to;
 
     /**
-     *
-     * @param from {Dot}
-     * @param to {Dot}
+     * @param {Dot} from
+     * @param {Dot} to
      */
     constructor(from, to) {
         this.from = from;
         this.to = to;
     }
-
 
 
     get x() {
@@ -228,9 +226,7 @@ class Vector {
         return Math.sqrt(this.x**2 + this.y**2)
     }
 
-    /**
-     * @param vector {Vector}
-     */
+    /** @param {Vector} vector */
     add(vector) {
         return new Vector(
             this.from,
@@ -257,21 +253,14 @@ class Speed extends Vector {
 }
 
 class Pendulum extends PhysicalDot {
-    /**
-     * @type {Speed}
-     */
+    /** @type {Speed} */
     speed = null;
-    /**
-     * @type {Array<PhysicalDot>}
-     */
+    /** @type {Array<PhysicalDot>} */
     centers = []
-    /**
-     * @type {boolean}
-     */
+    /** @type {boolean} */
     hide;
 
     /**
-     *
      * @param {number} x
      * @param {number} y
      * @param {number} size
@@ -302,7 +291,6 @@ class Pendulum extends PhysicalDot {
     }
 
     /**
-     *
      * @param ctx
      * @param {{color: string|undefined, dotSize: number}} params
      */
@@ -358,7 +346,7 @@ class Pendulum extends PhysicalDot {
 
             let toCenterVector = new Vector(this, center)
             if (toCenterVector.length < center.size) continue;
-            let centripetal_force = toCenterVector.normalize().multiply(0.00000000000000667430 * center.mass /toCenterVector.length);
+            let centripetal_force = toCenterVector.normalize().multiply(0.00000000000000667430 * center.mass / toCenterVector.length);
 
             this.speed = this.speed.add(centripetal_force.multiply(1/fps));
         }
