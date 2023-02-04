@@ -1,7 +1,7 @@
 {
-  "name": "$name$",
-  "version": "$version$",
+  "name": "GravitySimulation",
+  "version": "1.0.0",
+  "type": "module",
   "dependencies": {
-    $END$
   }
 }
