@@ -3,12 +3,9 @@ import {Speed} from "./Basic/Speed.js";
 import {Vector} from "./Basic/Vector.js";
 
 export class Pendulum extends PhysicalDot {
-    /** @type {Speed} */
-    speed = null;
-    /** @type {Array<PhysicalDot>} */
-    centers = []
-    /** @type {boolean} */
-    hide;
+    speed: Speed = null;
+    centers: PhysicalDot[] = []
+    hide: boolean;
 
     /**
      * @param {number} x

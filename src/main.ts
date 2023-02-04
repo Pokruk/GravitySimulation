@@ -22,18 +22,12 @@ function bindSpawnOnDragClickFor(canvas, simulation) {
 
     let lastDown = null;
     canvas.addEventListener("mousedown",
-        /**
-         * @param e {DragEvent}
-         */
-        (e)=> {
+        (e: DragEvent)=> {
             lastDown = {x: e.offsetX, y: e.offsetY}
         });
 
     canvas.addEventListener("mouseup",
-        /**
-         * @param e {DragEvent}
-         */
-        (e)=> {
+        (e: DragEvent)=> {
             const dif = {x: e.offsetX - lastDown.x, y: e.offsetY - lastDown.y}
 
             simulation.pendulums.push(new Pendulum(lastDown.x, lastDown.y, Number(sizeInput.value), Number(massInput.value) * 10 ** 14, {
@@ -47,14 +41,4 @@ function bindSpawnOnDragClickFor(canvas, simulation) {
 PendulumsConnector.eachOther(simulation.pendulums);
 bindSpawnOnDragClickFor(canvas, simulation);
 
-function getSizeFromMass(mass) {
-    return mass / 100000000000000;
-}
-
-let mass = 1000000000000000;
-
 simulation.start(1, canvas, ctx, true);
-
-
-
-

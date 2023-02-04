@@ -1,13 +1,10 @@
 import {Dot} from "./Dot.js";
 
 export class Vector {
-    from; to;
+    from: Dot;
+    to: Dot;
 
-    /**
-     * @param {Dot} from
-     * @param {Dot} to
-     */
-    constructor(from, to) {
+    constructor(from: Dot, to: Dot) {
         this.from = from;
         this.to = to;
     }
@@ -24,8 +21,7 @@ export class Vector {
         return Math.sqrt(this.x**2 + this.y**2)
     }
 
-    /** @param {Vector} vector */
-    add(vector) {
+    add(vector: Vector) {
         return new Vector(
             this.from,
             new Dot(

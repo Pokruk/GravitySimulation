@@ -16,10 +16,7 @@ export class PendulumsSimulator {
         return this.lastFrameEndTime !== null ? Date.now() - this.lastFrameEndTime : 0
     }
 
-    /**
-     * @param {{pendulums: Array.<Pendulum>|undefined}} params
-     */
-    constructor(params) {
+    constructor(params?: {pendulums?: Pendulum[]}) {
         this.pendulums = params.pendulums;
     }
 

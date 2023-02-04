@@ -1,14 +1,8 @@
 import {Dot} from "./Dot.js";
 
 export class PhysicalDot extends Dot {
-    /**
-     * @type {number}
-     */
-    mass;
-    /**
-     * @type {number}
-     */
-    size;
+    mass: number;
+    size: number;
 
     constructor(x, y, color, size, mass) {
         super(x, y, color);
