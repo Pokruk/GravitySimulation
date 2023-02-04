@@ -18,6 +18,7 @@ let simulation = new PendulumsSimulator(
 function bindSpawnOnDragClickFor(canvas, simulation) {
     let massInput = document.getElementById("mass") as HTMLInputElement;
     let sizeInput = document.getElementById("size") as HTMLInputElement;
+    let colorInput = document.getElementById("color") as HTMLInputElement;
 
     let lastDown = null;
     canvas.addEventListener("mousedown",
@@ -36,7 +37,7 @@ function bindSpawnOnDragClickFor(canvas, simulation) {
             const dif = {x: e.offsetX - lastDown.x, y: e.offsetY - lastDown.y}
 
             simulation.pendulums.push(new Pendulum(lastDown.x, lastDown.y, Number(sizeInput.value), Number(massInput.value) * 10 ** 14, {
-                color: simulation.getRandomColor(),
+                color: colorInput.value,
                 centers: simulation.pendulums,
                 speed: new Speed(dif.x, dif.y),
             }));
