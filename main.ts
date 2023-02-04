@@ -2,14 +2,11 @@ class PendulumsSimulator {
 
     lastFrameEndTime = null;
 
-    /**
-     * @type {Array<Pendulum>}
-     */
-    pendulums = null;
+    pendulums: Pendulum[] = null;
     interval;
 
     get deltaTime() {
-        return this.lastFrameEndTime !== null ? new Date() - this.lastFrameEndTime : 0
+        return this.lastFrameEndTime !== null ? Date.now() - this.lastFrameEndTime : 0
     }
 
     /**
@@ -20,8 +17,8 @@ class PendulumsSimulator {
     }
 
     bindSpawnOnDragClickFor(canvas) {
-        let massInput = document.getElementById("mass");
-        let sizeInput = document.getElementById("size");
+        let massInput = document.getElementById("mass") as HTMLInputElement;
+        let sizeInput = document.getElementById("size") as HTMLInputElement;
 
         let lastDown = null;
         canvas.addEventListener("mousedown",
@@ -294,7 +291,7 @@ class Pendulum extends PhysicalDot {
      * @param ctx
      * @param {{color: string|undefined, dotSize: number}} params
      */
-    draw(ctx, params) {
+    draw(ctx, params?) {
         if (!this.hide) {
             super.draw(ctx, {color: this.color, dotSize: this.size});
         }
