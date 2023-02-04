@@ -84,7 +84,7 @@ class PendulumsSimulator {
         pendulums[pendulums.length-1].centers.push(pendulums[0])
     }
 
-    eachOtherCentering(pendulums) {
+    eachOtherCentering(pendulums?) {
         pendulums = pendulums || this.pendulums;
         for (let pendulum of pendulums) {
             pendulum.centers = pendulums
