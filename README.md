@@ -12,7 +12,7 @@ There are 3 ways to try it out:
 ## Try it online
 Simply open this link in your browser:
 
-https://pokruk.github.io/GravitySimulation/
+https://pokruk.github.io/GravitySimulation/dist/
 
 ## Run locally
 Open `./dist/index.html` in your browser
